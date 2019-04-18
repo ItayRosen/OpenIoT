@@ -1,0 +1,12 @@
+Openiot KEYWORD1
+callback KEYWORD2
+begin KEYWORD2
+loop KEYWORD2
+setStream KEYWORD2
+enableTLS KEYWORD2
+enableOTA KEYWORD2
+setVersion KEYWORD2
+attachVariable KEYWORD2
+attachDigitalPort KEYWORD2
+attachAnalogPort KEYWORD2
+attachFunction KEYWORD2
