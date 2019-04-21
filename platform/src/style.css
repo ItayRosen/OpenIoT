@@ -1,0 +1,389 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #ebf1f2;
+  color: #999999;
+}
+
+::placeholder {
+  color: red;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a, a:hover, .btn-link, .btn-link:hover {
+	color: #de4b39;
+	cursor: pointer;
+}
+
+h1, h4, h3, h5 {
+	color: black;
+}
+
+.content {
+	margin-left: 260px;
+	margin-top: 70px;
+	margin-right: 20px;
+}
+
+.description {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.box {
+	background: white;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px 0 rgba(50,86,123,.16);
+	padding: 20px 30px 20px 30px;
+	margin-top: 10px;
+}
+
+/* Header */
+
+#header .dropdown-toggle::after {
+    display:none;
+}
+
+#header .dropShadow {
+	box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+}
+
+#header .dropdown {
+	position: inherit;
+	right: 0px;
+	top: 0px;
+}
+
+#header h3 {
+	left: 263px;
+    position: inherit;
+    top: 5px;
+    color: white;
+}
+
+.navBar {
+	position: fixed;
+	width: 100%;
+	background: #de4b39;
+	height: 50px;
+	top: 0px;
+	z-index: 1;
+}
+
+.sideBar {
+	position: fixed;
+	top: 0px;
+	width: 250px;
+	height: 100%;
+	background: white;
+	z-index: 2;
+}
+
+.userMenu {
+	position: absolute;
+	right: 5px;
+	width: 42px;
+	height: 42px;
+	margin-top: 3px;
+	padding-left: 5px;
+	padding-top: 1px;
+	background: #999999;
+	border-radius: 20px;
+	border: 2px solid #ebf1f2;
+}
+
+.userMenu:hover {
+	color: inherit;
+	background-color: #999999;
+	border-color: #ebf1f2;
+}
+
+.sideBar-title {
+	font-size: 24px;
+	text-align: center;
+	height: 50px;
+	background: #BC2C19;
+	color: white;
+	padding-top: 5px;
+}
+
+.sideBar-icon {
+	margin-right: 10px;
+}
+
+.sideBar-arrow {
+	float: right;
+	margin-top: 5px;
+}
+
+.sideBar a:hover {
+	background: #de4b39;
+	color: white;
+}
+
+.sideBar-footer {
+	bottom: 0px;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+}
+
+.secondaryNavBar {
+	height: 50px;
+	margin-top: 50px;
+	margin-left: 250px;
+	margin-right: 0px;
+	background: #de4b39;
+	margin-bottom: -50px;
+}
+
+.secondaryNavBar .menu {
+	margin-top: 21px;
+}
+
+.secondaryNavBar .menu a {
+	color: white;
+	margin-right: 15px;
+}
+
+.secondaryNavBar .menu .selected, .secondaryNavBar .menu a:hover {
+    border-bottom: 2px solid white;
+    padding-bottom: 5px;
+	text-decoration: none;
+}
+
+.dropdown-toggle::after {
+    display:none;
+}
+
+/* Mobile Menu */
+
+.mobile-menu-icon {
+	width: 25px;
+	margin-top: 10px;
+	margin-left: 5px;
+	color: white;
+}
+
+.bm-overlay {
+	top: 0px;
+}
+
+.bm-menu-wrap {
+	background: #bc2c18;
+	top: 0px;
+	padding: 10px;
+}
+
+.bm-menu-wrap a {
+	color: #ebf1f2;
+	font-size: 20px;
+	font-weight: 600;
+	margin-bottom: 10px;
+}
+
+/* Login */
+
+#login input {
+	margin-top: 15px;
+	box-shadow: inset 0.5px 0.5px 0.5px #999999;
+}
+
+#login a {
+	color: #999999;
+}
+
+#login .footer {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	padding: 10px;
+	background: #808080;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	margin-left: -30px;
+}
+
+#login .footer a {
+	color: white;
+}
+
+/* Dashboard */
+
+#dashboard .box {
+	margin-left: auto;
+	margin-right: auto;
+	width: 230px;
+	height: 250px;
+	cursor: pointer;
+	padding: 15px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+#dashboard .box:hover {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#dashboard .new {
+	background: #de4b39;
+	color: white;
+}
+
+#dashboard .new:hover {
+	background: #BC2C19;
+}
+
+
+/* New Thing */
+
+#newThing label {
+	color: #de4b39;
+}
+
+#newThing form {
+	width: 100%;
+}
+
+#newThing .submit {
+	margin-top: 10px;
+}
+
+/* Thing */
+
+
+
+/* Logs */
+
+.log {
+	border-top: 1px solid #999999;
+}
+
+/* Notifications */
+
+#notifications table tr, #notifications .table thead th {
+	border: none;
+}
+
+#notifications .table th {
+	font-weight: 600;
+	color: black;
+}
+
+#notifications .new {
+	float: right;
+}
+
+#notifications .name {
+	padding: 0px;
+	color: #de4b39;
+}
+
+/* Access Control */
+
+#accessControl .user {
+	border-top: 1px solid;
+	padding-top: 5px;
+}
+
+/* Overview */ 
+
+#overview .box {
+	padding: 10px;
+	min-height: 140px;
+	margin-top: 5px;
+}
+
+#overview .functionButton {
+	background: #67cc93;
+	border-color: #67cc93;
+}
+
+#overview .functionButton:hover {
+	background: #4e9e71;
+	border-color: #4e9e71;
+}
+
+#overview .functionButton:disabled {
+	background: #8ecaa8;
+	border-color: #8ecaa8;
+}
+
+#overview .summary {
+	margin-bottom: 10px;
+	margin-left: 0px;
+}
+
+#overview .summary .icon {
+	color: #de4b39;
+	padding: 10px;
+	width: 55px;
+	background: white;
+	border-radius: 50%;
+	box-shadow: 1px 1px 2px #999999;
+}
+
+#overview .summary button {
+	padding: 0px;
+}
+
+#overview .summary span {
+	margin-right: 15px;
+}
+
+#overview .summary h4:hover {
+	color: #F67160;
+}
+
+#overview .variableButton {
+	background: #f9bb5c;
+	border-color: #f9bb5c;
+}
+
+#overview .variableButton:active {
+	background: #e2a951;
+	border-color: #e2a951;
+}
+
+/* Account */
+#account form {
+	margin-left: 10px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 575px) {
+	#header h3 {
+		left: 50px;
+	}
+	
+	.content {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	
+	#dashboard .box {
+		width: 170px;
+		height: 200px;
+		padding: 10px;
+	}
+	
+	.sideBar-title {
+		height: unset;
+		padding-top: 0px;
+		margin-bottom: 10px;
+	}
+	
+	.secondaryNavBar {
+		margin-left: 0px;
+	}
+}
