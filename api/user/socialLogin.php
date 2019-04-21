@@ -6,9 +6,6 @@ include_once '../config/HTTP_ORIGIN.php';
 include_once '../config/core.php';
 include_once '../objects/user.php';
 
-// Load social credentials
-$credentials = json_decode(file_get_contents(social_secret));
-
 // Firebase
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
@@ -44,7 +41,7 @@ if (!isset($data -> idToken) || empty($data -> idToken)) {
 switch ($data -> provider) {
 	
 	case 'google':
-		$client = new Google_Client(['client_id' => $credentials -> google_client_id]);
+		$client = new Google_Client(['client_id' => google_client_id]);
 		$payload = $client->verifyIdToken($data -> idToken);
 		if ($payload) {
 			$id = $payload['sub'];
