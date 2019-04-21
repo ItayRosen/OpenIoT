@@ -97,15 +97,15 @@ switch ($data -> action) {
 }
 
 if ($status) {
-	//read feedback (try 5 times, 5 sec interval).
-	for ($i = 0; $i < 5; $i++) {
+	//read feedback (try 10 times, 2 sec interval).
+	for ($i = 0; $i < 10; $i++) {
 		if ($thing -> getFeedback($data -> id)) {
 			$core -> output(200,"Transmission successful.");
 		}
 		else {
-			sleep(5);
+			sleep(2);
 		}
 	}
-	$core -> output(422,"Transmission timed out. We did not get a response from your thing.");
+	$core -> output(422,"Connection timed out to Thing.");
 }
 $core -> output(500,"Connection error occurred, please try again later.");
