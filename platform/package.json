@@ -1,0 +1,43 @@
+{
+  "name": "openiot",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.14",
+    "@fortawesome/free-brands-svg-icons": "^5.7.1",
+    "@fortawesome/free-solid-svg-icons": "^5.7.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "bootstrap": "^4.2.1",
+    "chart.js": "^2.7.3",
+    "copy-to-clipboard": "^3.1.0",
+    "rc-slider": "^8.6.6",
+    "react": "^16.8.0",
+    "react-bootstrap": "^1.0.0-beta.5",
+    "react-burger-menu": "^2.6.5",
+    "react-chartjs-2": "^2.7.4",
+    "react-confirm-alert": "^2.3.0",
+    "react-dom": "^16.8.0",
+    "react-notifications-component": "^1.1.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.5",
+    "react-social-login": "^3.4.4",
+    "react-spinners": "^0.5.3",
+    "react-switch": "^4.1.0",
+    "react-tooltip": "^3.9.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

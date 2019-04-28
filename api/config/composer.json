@@ -1,0 +1,6 @@
+{
+    "require": {
+        "kreait/firebase-php": "^4.18",
+        "google/apiclient": "^2.0"
+    }
+}

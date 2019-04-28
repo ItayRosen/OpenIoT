@@ -1,3 +1,2 @@
-*.json
 *.log
-api/secrets/*
+api/config/secrets/*
