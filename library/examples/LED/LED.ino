@@ -4,7 +4,7 @@
 		1. Change credentials (Wifi name, Wifi password and Token)
 		2. Connect an LED
 		a. Shorted leg -> GND
-		b. Longer leg -> 1k Ohm resistor -> GPIO 14 (D5)
+		b. Longer leg -> 1k Ohm resistor -> GPIO D5
 		3. Upload sketch to your device
 		4. Go to the platform and update the value (with the slider) of the LED component
 		4. Look at the LED and see its brightness change
@@ -32,7 +32,7 @@ void setup() {
 	client.begin();
 
 	//Attach an analog port (not really analog, it will use PWM instead)
-	client.attachAnalogPort(14,"LED",OUTPUT);
+	client.attachAnalogPort(D5,"LED",OUTPUT);
 }
 
 void loop() {
