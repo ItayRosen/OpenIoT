@@ -12,6 +12,7 @@ Control your IoT devices from the cloud with OpenIoT. The platform allows you to
 
 ## Usage
 > OpenIoT works by attaching components (GPIO, Variables and Functions) to the platform, using the library.
+
 Learn how to use the library in the [docs][Library-Docs]. Examples can be found in the [examples directory][Examples].
 ````
 /*
