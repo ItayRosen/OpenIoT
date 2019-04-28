@@ -78,7 +78,7 @@ class Login extends Component {
 			(result) => {
 				if (result.response === 200 || result.response === 409)
 				{
-					this.setState({redirect: "./Dashboard"});
+					this.setState({redirect: "./newThing"});
 				}
 				else
 				{
@@ -102,7 +102,7 @@ class Login extends Component {
 			(result) => {
 				if (result.response === 200 || result.response === 409)
 				{
-					this.setState({redirect: "./Dashboard"});
+					this.setState({redirect: "./newThing"});
 				}
 				else
 				{
