@@ -1,8 +1,8 @@
 # Library Documentation
-> Methods and general information for board library
+> Methods and general information for the board's library
 
 ## Quick Start
-> Create an OpenIoT client 
+> Connect a device to the platform
 
 ````
 #include "Openiot.h"
@@ -33,7 +33,7 @@ You need to pass 4 parameters to the constructor:
 * Wifi client (needs to be initiated beforehand of course)
 * Wifi network name
 * Wifi network password
-* Token (get it by going to the platform Dashboard, choosing [or creating] your thing, clicking on the Thing's name and choosing "Get Token").
+* OpenIoT Token (get it by going to the platform Dashboard, choosing [or creating] your thing, clicking on the Thing's name and choosing "Get Token").
 
 ## Calls
 The client needs to be called at least two times:
@@ -41,11 +41,13 @@ The client needs to be called at least two times:
 * Once on the setup function - `client.begin()`
 * On every system loop (on the loop function) - `client.loop()`.
 
-## Attach
+## Attach Components
 > You can attach functions, variables and ports to the platform. Attaching is done once on the setup function.
 
 * Attach analog port - `client.attachDigitalPort(number, name, mode)`
+> Usecases: Dim LED , control servo motor, read a temperature sensor's value
 * Attach digital port - `client.attachAnalogPort(number, name, mode)`
+> Usecases: LED switch, turn relay on / off, read binary sensors (1 / 0)
     * number - The port's number. For example: 1, 9, A0
 	* name - How you'd like to name this component. Will be used to identify this port on the platform
 	* mode - Whether you'd like to read the port's value on the platform or set it from the platform. Values can be "INPUT" or "OUTPUT". It's much like how you'd use pinMode on Arduino environment.
@@ -68,6 +70,7 @@ void loop() {
 }
 ````
 * Attach variable - `client.attachVariable(variable, name)`
+> Usecases: Display control, serial communication, read calculated variables (such as data from IMU)
 	* variable - A variable that has already been declared in the sketch. Supported types: string, char array, int, float. Important: If the variable type is char array, make sure you allocate enough size so you can update its value from the platform.
 	* name - How you'd like to name this component. Will be used to identify this variable on the platform
 ````
@@ -91,6 +94,7 @@ void loop() {
 }
 ````
 * Attach function - `client.attachFunction(function, name)`
+> Usecases: Perform any operation. Can be used alongside other components (e.g. variable component to store a string and a function component to update an LCD with said variable)
     * function - A void function that takes no parameters. Important: If the function is declared after its attachement to the platform, then it has to be declared beforehand as such: `void functionName();`
 	* name - How you'd like to name this component. Will be used to identify this function on the platform
 ````
@@ -112,7 +116,7 @@ void loop() {
 }
 
 void myFunction() {
-	//Do something :)
+	Serial.println("Function executed successfully!");
 }
 ````
 	
