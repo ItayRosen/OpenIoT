@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {API_URL} from '../constants/constants.js';
 import { Redirect } from "react-router-dom";
 import Loader from './Loader.js'
+import logo from '../img/logo.png'
 
 //Bootstrap
 import Container from 'react-bootstrap/Container';
@@ -11,8 +12,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 //Fontawesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrochip } from '@fortawesome/free-solid-svg-icons'
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { faMicrochip } from '@fortawesome/free-solid-svg-icons'
 
 class Reset extends Component {	
 
@@ -93,7 +94,7 @@ class Reset extends Component {
 		else {
 			return (
 			<Container id="reset">
-				<Row><Col><center><FontAwesomeIcon icon={faMicrochip} size="4x" color="#DE4C39"/></center></Col></Row>
+				<Row><Col><center><img src={logo} alt="logo" style={{marginTop: "20px", marginBottom: "20px", width: "150px"}}/></center></Col></Row>
 				<Row>
 					<Col className="box" lg={{ span: 4, offset: 4 }} md={{ span: 5, offset: 4 }} sm={{ span: 8, offset: 2 }} xs={{ span: 10, offset: 1 }}>
 						<center><h3>Reset Password</h3></center>
