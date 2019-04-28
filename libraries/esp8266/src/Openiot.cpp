@@ -336,6 +336,8 @@ void Openiot::attachPort(uint8_t type, const char *name, uint8_t port, uint8_t m
     strcat(topic, _mode);
     //publish
     mqtt.publish(topic, name);
+	//set mode
+	pinMode(port, mode);
     //debug
     if (serial != NULL) serial->println("attached port");
 }
