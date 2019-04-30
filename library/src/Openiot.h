@@ -12,9 +12,6 @@
 #define mqttTimeout 10 //mqtt timeout in seconds
 #define changeCheckInterval 5000 //delay between gpio & variable change check (in ms)
 
-//Not configurable - Do not edit
-#define mqttServer "mqtt.openiot.xyz" //MQTT server
-
 class Openiot {
   private:
   const char* ssid; //wifi name
@@ -83,6 +80,7 @@ class Openiot {
   bool enableTLS = false; //enable communication over TLS (port 8883)
   bool enableOTA = true; //enable or disable OTA updates
   void setVersion(const char *version); //attach firmware version to Platform
+  const char *mqttServer = "mqtt.openiot.xyz"; //Set mqtt server. To be changed when self hosting
   //attach ports, variables and functions to Platform Control
   void attachVariable(int& variable, const char *name);
   void attachVariable(String& variable, const char *name);
