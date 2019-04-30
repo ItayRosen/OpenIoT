@@ -5,7 +5,7 @@
 > Connect a device to the platform
 
 ````
-#include "Openiot.h"
+#include <Openiot.h>
 
 //set your wifi credentials and OpenIoT token
 const char *ssid = "wifi_network_name";
@@ -57,7 +57,7 @@ The client needs to be called at least two times:
     * mode - Whether you'd like to read the port's value on the platform or set it from the platform. Values can be "INPUT" or "OUTPUT". It's much like how you'd use pinMode on Arduino environment.
     
 ````
-#include "Openiot.h"
+#include <Openiot.h>
 
 WifiClient wifi;
 Openiot client(wifi, ssid, password, token);
@@ -82,7 +82,7 @@ void loop() {
 	* name - How you'd like to name this component. Will be used to identify this variable on the platform
 
 ````
-#include "Openiot.h"
+#include <Openiot.h>
 
 WifiClient wifi;
 Openiot client(wifi, ssid, password, token);
@@ -108,7 +108,7 @@ void loop() {
 	* function - A void function that takes no parameters. Important: If the function is declared after its attachement to the platform, then it has to be declared beforehand as such: `void functionName();`
 	* name - How you'd like to name this component. Will be used to identify this function on the platform
 ````
-#include "Openiot.h"
+#include <Openiot.h>
 
 WifiClient wifi;
 Openiot client(wifi, ssid, password, token);
@@ -154,7 +154,7 @@ void setup() {
 You can also use software serial:
 ````
 #include <SoftwareSerial.h>
-#include "Openiot.h"
+#include <Openiot.h>
 
 SoftwareSerial mySerial(rxPin, txPin);
 WifiClient wifi;
