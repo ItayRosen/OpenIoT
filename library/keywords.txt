@@ -10,3 +10,4 @@ attachVariable KEYWORD2
 attachDigitalPort KEYWORD2
 attachAnalogPort KEYWORD2
 attachFunction KEYWORD2
+mqttServer KEYWORD2

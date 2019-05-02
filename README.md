@@ -7,18 +7,21 @@ Control your IoT devices from the cloud with OpenIoT. The platform allows you to
 
 ## Installation
 1. You need an Arduino environment IDE with ESP8266 support. [Arduino IDE][Arduino-IDE] and [PlatformIO][PlatformIO] are recommended.
-2. Add the [OpenIoT Library][Library] to [Arduino IDE][ArduinoIDEUploadLibrary] or [PlatformIO][PlatformIOUploadLibrary].
+2. Add the [OpenIoT Library](releases) to [Arduino IDE][ArduinoIDEUploadLibrary] or [PlatformIO][PlatformIOUploadLibrary].
 3. [Register][Register] on the platform, [add][Add] a new thing and follow the steps for a quick start.
 
 ## Usage
 > OpenIoT works by attaching components (GPIO, Variables and Functions) to the platform, using the library.
 
-Learn how to use the library in the [docs][Library-Docs]. Examples can be found in the [examples directory][Examples].
+Learn how to use the library in the [docs](tree/master/docs/library). Examples can be found in the [examples directory](tree/master/examples).
 
 ## OTA Updates
 > Over the air firmware updates
 
 Future development of the platform will include an IDE (like Arduino Create). Current OTA only allows uploading of a compiled binary file. Future development will also optimize the process and allow a ~70% flash size usage, but current process limits you to 50% flash size. It means that if your board has flash size (PROGRAM) of 4MB, then your sketch can only use 50% of it (2MB). That is because the new firmware has to be stored alongside current firmware for update. You can extract your compiled binary file quite easily with [Arduino IDE][Arduino-IDE-Binary] and [PlatformIO][PlatformIO-Binary].
+
+## Self Hosting
+You can host the platform and all communication handling on your own server. You are going to need a linux machine and a firebase account. Check out the [step by step tutorial](tree/master/docs/slef-hosting)
 
 ## Supported Boards 
 As of now, only ESP8266 is supported. I do wish to add support for as many boards as possible. Any help with this task is appreciated.
@@ -61,11 +64,8 @@ All contributions and contributors are welcome. If you've ran into issues, pleas
 <!-- Markdown links -->
 [Arduino-IDE]: https://www.instructables.com/id/Quick-Start-to-Nodemcu-ESP8266-on-Arduino-IDE/
 [PlatformIO]: https://www.instructables.com/id/Introducing-PlatformIO-for-ESP8266/
-[Library]: https://github.com/ItayRosen/OpenIoT/releases
 [Register]: https://platform.openiot.xyz/Register
 [Add]: https://platform.openiot.xyz/Newthing
-[Examples]: https://github.com/ItayRosen/OpenIoT/tree/master/examples
-[Library-Docs]: https://github.com/ItayRosen/OpenIoT/tree/master/docs/library
 [Arduino-IDE-Binary]: https://randomnerdtutorials.com/bin-binary-files-sketch-arduino-ide/
 [PlatformIO-Binary]: https://www.instructables.com/id/Exporting-Binary-bin-File-From-PlatformIO/
 [nodemcu-pinout]: https://www.instructables.com/id/NodeMCU-ESP8266-Details-and-Pinout/
