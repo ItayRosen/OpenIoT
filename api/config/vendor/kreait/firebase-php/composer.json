@@ -1,0 +1,60 @@
+{
+    "name": "kreait/firebase-php",
+    "description": "Firebase Admin SDK",
+    "keywords": ["firebase", "google", "sdk", "api", "database"],
+    "homepage": "https://github.com/kreait/firebase-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérôme Gamez",
+            "homepage": "https://github.com/jeromegamez"
+        }
+    ],
+    "support": {
+        "docs": "https://firebase-php.readthedocs.io",
+        "issues": "https://github.com/kreait/firebase-php/issues",
+        "source": "https://github.com/kreait/firebase-php"
+    },
+    "require": {
+        "php": "^7.0",
+        "ext-ctype": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "giggsey/libphonenumber-for-php": "^8.9",
+        "google/auth": "^0.11.0|^1.0",
+        "guzzlehttp/guzzle": "^6.2.1",
+        "kreait/firebase-tokens": "^1.7.2",
+        "kreait/gcp-metadata": "^1.0.1",
+        "lcobucci/jwt": "^3.2",
+        "mtdowling/jmespath.php": "^2.3",
+        "superbalist/flysystem-google-storage": "^7.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "phpstan/phpstan-phpunit": "^0.9.2",
+        "phpunit/phpunit": "^6.0|^7.0",
+        "symfony/var-dumper": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kreait\\Firebase\\": "src/Firebase"
+        },
+        "files": [
+            "src/Firebase.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kreait\\Firebase\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.x-dev"
+        }
+    }
+}
