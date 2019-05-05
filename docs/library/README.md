@@ -131,7 +131,7 @@ void myFunction() {
 ````
 
 ## WiFi Manager
-You can use [WiFi Manager](https://github.com/tzapu/WiFiManager) alongside OpenIoT for better security (by avoiding hard coding sensitive data) and for better WiFi handling. If you are not familiar with it, from its docs, it's a `WiFi Connection manager with web captive portal`. We are definitely recommending using it. Here's a basic example (without storing the token as a custom parameter - will be added in a future update):
+You can use [WiFi Manager](https://github.com/tzapu/WiFiManager) alongside OpenIoT for better security (by avoiding hard coding sensitive data) and for better WiFi handling. If you are not familiar with it, from its docs, it's a `WiFi Connection manager with web captive portal`. We are definitely recommending using it. Please note that using WiFiManager will take approximately additional 4,720 & 31,000 Bytes of SRAM & Flash Memory (respectively). Here's a basic example (without storing the token as a custom parameter - will be added in a future update):
 ````
 #include <Openiot.h>
 #include <ESP8266WiFi.h>
