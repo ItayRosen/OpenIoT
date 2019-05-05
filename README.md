@@ -38,13 +38,13 @@ As of now, only ESP8266 is supported. I do wish to add support for as many board
 ## Features Roadmap
 > Suggestions and "voting" for certain urgancy of different features are welcome.
 
-* Web IDE - for OTA firmware updates
-* Mobile App
-* Github OTA - push OTA updates from Github
-* API - http api for 3rd party applications
-* Data Charts - log components data on platform and plot charts with it.
-* Wifi Manager - add support for Wifi Manager (insert wifi credentials via web server instead of hard-coding)
-* Coding Hub - create applications that can control multiple Things in one code
+- [ ] Web IDE - for OTA firmware updates
+- [ ] Mobile App
+- [ ] Github OTA - push OTA updates from Github
+- [ ] API - http api for 3rd party applications
+- [ ] Data Charts - log components data on platform and plot charts with it.
+- [X] Wifi Manager - add support for Wifi Manager (insert wifi credentials via web server instead of hard-coding)
+- [ ] Coding Hub - create applications that can control multiple Things in one code
 
 ## Contribute
 All contributions and contributors are welcome. If you've ran into issues, please look if there's a similar one opened already. If not, open a new one. Contribution can also be done with future development in the form of:
