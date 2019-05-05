@@ -29,6 +29,7 @@ class Openiot {
   void startup(); //send indication to MQTT broker that the device has just restarted
   void ok(); //send feedback after transmission
   Stream* serial = NULL;; //serial output for debugging
+  bool externalWiFi = false; //whether we are managing WiFi outside the library (such as with WiFiManager)
 
   //Functions Control
   struct Function {
@@ -72,15 +73,19 @@ class Openiot {
   void updateVariable(char *topic, char *buffer, uint8_t length); //update variable value from platform
     
   public:
-  Openiot(Client &client, const char *wifi_ssid, const char *wifi_password, const char *token); //constructor
+  //constructor
+  Openiot(Client &client, const char *wifi_ssid, const char *wifi_password, const char *token);
+  Openiot(Client &client, const char *token);
+  //Core functions
   void callback(char* topic, byte* payload, uint8_t length); //mqtt callback
   void begin(); //create wifi & mqtt connection
   void loop(); //handler
+  char *mqttServer = "mqtt.openiot.xyz"; //Set mqtt server. To be changed when self hosting
+  //Optional
   void setStream(Stream &stream); //set output for Serial debugging
   bool enableTLS = false; //enable communication over TLS (port 8883)
   bool enableOTA = true; //enable or disable OTA updates
   void setVersion(const char *version); //attach firmware version to Platform
-  const char *mqttServer = "mqtt.openiot.xyz"; //Set mqtt server. To be changed when self hosting
   //attach ports, variables and functions to Platform Control
   void attachVariable(int& variable, const char *name);
   void attachVariable(String& variable, const char *name);

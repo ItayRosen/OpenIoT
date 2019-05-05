@@ -27,10 +27,36 @@ Openiot::Openiot(Client &client, const char *wifi_ssid, const char *wifi_passwor
     }
 }
 
+Openiot::Openiot(Client &client, const char *token)
+{
+    mqtt.setClient(client);
+    externalWiFi = true;
+    //extract mqtt credentials from token
+    char *chunk;
+    char *_token = strdup(token);
+    uint8_t i = 0;
+    chunk = strtok(_token,"/");
+    while (chunk != NULL) {
+        switch (i) {
+            case 0:
+                user = chunk;
+                break;
+
+            case 1:
+                password = chunk;
+                break;
+        }
+        i++;
+        chunk = strtok(NULL,"/");
+    }
+}
+
 void Openiot::begin()
 {
     //configure wifi
-    WiFi.begin(this->ssid, this->ssid_password);
+    if (!externalWiFi) {
+        WiFi.begin(this->ssid, this->ssid_password);
+    }
     while (!wifiConnect()) {};
     //configure MQTT
     uint16_t mqttPort = (enableTLS) ? 8883 : 1883;
