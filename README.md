@@ -57,6 +57,15 @@ All contributions and contributors are welcome. If you've ran into issues, pleas
 
 ## Release History
 
+* 0.1.3
+   * Added support for WiFiManager and external wifi management in general.
+
+* 0.1.2
+   * Added support for self hosting
+
+* 0.1.1
+   * Fixed digital read/write operations
+
 * 0.1.0
     * First release
 
