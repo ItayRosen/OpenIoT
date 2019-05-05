@@ -129,6 +129,34 @@ void myFunction() {
 	Serial.println("Function executed successfully!");
 }
 ````
+
+## WiFi Manager
+You can use [WiFi Manager](https://github.com/tzapu/WiFiManager) alongside OpenIoT for better security (by avoiding hard coding sensitive data) and for better WiFi handling. If you are not familiar with it, from its docs, it's a `WiFi Connection manager with web captive portal`. We are definitely recommending using it. Here's a basic example (without storing the token as a custom parameter - will be added in a future update):
+````
+#include <Openiot.h>
+#include <ESP8266WiFi.h>
+#include <DNSServer.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>
+
+const char *token = "OPENIOT_TOKEN";
+
+WiFiClient wifi;
+WiFiManager wifiManager;
+Openiot client(wifi, token);
+
+void setup() {
+  Serial.begin(9600);
+  client.setStream(Serial);
+  wifiManager.autoConnect("AutoConnectAP");
+  client.begin();
+}
+
+void loop() {
+	//Run client on loop
+	client.loop();
+}
+````
 	
 ## TLS
 You can configure OpenIoT to communicate securely over TLS. It's not activated by default because it requires quite a bit of flash size (for WiFiClientSecure) and memory (for the certificate). Communication is operated over port 1883 by default, when TLS is enabled, it's operated over port 8883. Using TLS is recommended in order to prevent Man in the Middle attacks.
