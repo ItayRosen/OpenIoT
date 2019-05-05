@@ -7,13 +7,13 @@ Control your IoT devices from the cloud with OpenIoT. The platform allows you to
 
 ## Installation
 1. You need an Arduino environment IDE with ESP8266 support. [Arduino IDE][Arduino-IDE] and [PlatformIO][PlatformIO] are recommended.
-2. Add the [OpenIoT Library](releases) to [Arduino IDE][ArduinoIDEUploadLibrary] or [PlatformIO][PlatformIOUploadLibrary].
+2. Add the [OpenIoT Library](https://github.com/ItayRosen/OpenIoT/releases) to [Arduino IDE][ArduinoIDEUploadLibrary] or [PlatformIO][PlatformIOUploadLibrary].
 3. [Register][Register] on the platform, [add][Add] a new thing and follow the steps for a quick start.
 
 ## Usage
 > OpenIoT works by attaching components (GPIO, Variables and Functions) to the platform, using the library.
 
-Learn how to use the library in the [docs](tree/master/docs/library). Examples can be found in the [examples directory](tree/master/examples).
+Learn how to use the library in the [docs](https://github.com/ItayRosen/OpenIoT/tree/master/docs/library). Examples can be found in the [examples directory](https://github.com/ItayRosen/OpenIoT/tree/master/examples).
 
 ## OTA Updates
 > Over the air firmware updates
