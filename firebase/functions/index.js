@@ -64,7 +64,7 @@ exports.portsListener = functions.database.ref('things/{thingID}/ports/{portID}/
 		//set notifications reference
 		const notificationsRef = admin.database().ref('things/'+context.params.thingID+'/notifications');
 		//read associated notifications
-		return notificationsRef.orderByChild("triggerValue").equalTo(name).once("value",notificationsSnap => {
+		return notificationsRef.orderByChild("triggerValue").equalTo(context.params.portID).once("value",notificationsSnap => {
 			//loop through notifications
 			notificationsSnap.forEach(notificationSnap => {
 				const notification = notificationSnap.val();
