@@ -65,7 +65,7 @@ class Activity extends Component {
 					<Col xl={{span: 6}} lg={{span: 6}}>
 						<div className="box">
 							<h4>24 Hour Uptime Chart</h4>
-							<this.Chart />
+							<this.Chart data={this.state.chartData} displayTicks={false} unit="hour" />
 						</div>
 					</Col>
 					<Col xl={{span: 6}} lg={{span: 6}}>
@@ -79,12 +79,12 @@ class Activity extends Component {
 		);
 	  }
 	  
-	Chart() {
+	Chart(props) {
 		const data = {
 		  datasets: [
 			{
-				data: this.state.chartData,
-				pointRadius: 0
+				data: props.data,
+				pointRadius: 0.1
 			}
 		  ]
 		};
@@ -93,10 +93,10 @@ class Activity extends Component {
 			scales: {
 				yAxes: [{
 					ticks: {
-						display: false
+						display: props.displayTicks
 					},
 					gridLines: {
-						color: "rgba(0, 0, 0, 0)"
+						color: (props.displayTicks) ? "rgba(0, 0, 0, 0)" : ""
 					}
 				}],
 				xAxes: [{
@@ -105,7 +105,7 @@ class Activity extends Component {
 						color: "rgba(0, 0, 0, 0)"
 					},
 					time: {
-						unit: 'hour',
+						unit: props.unit,
 						displayFormats: {
 							hour: 'HH:mm'
 						}
@@ -116,7 +116,7 @@ class Activity extends Component {
 				display: false
 			},
 			tooltips: {
-				enabled: false,
+//				enabled: false,
 			}
 		};
 
@@ -167,7 +167,7 @@ class Activity extends Component {
 				}
 			}
 		}
-		this.setState({chartData: data.reverse()});
+		this.setState({chartData: data});
 	}
 }
 
