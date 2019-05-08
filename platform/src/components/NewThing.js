@@ -255,7 +255,7 @@ void loop() {
 						<p>1. Upload the OpenIoT library to your IDE. You can download it <a rel="noopener noreferrer" target="_blank" href="https://github.com/ItayRosen/OpenIoT/releases">here</a>.</p>
 						<p>2. Run the example sketch. Make sure to update your WiFi's credentials. This example sketch will attach a variable to the Platform and print it every 5 seconds. Change the variable's value to something else on the Platform and see how it changes in your Serial monitor.</p>
 						<pre style={{background: "#3333", maxHeight: "200px"}}><code>{exampleSketch}</code></pre>
-						<p>3. After uploading the sketch, make sure to click the restart button on your board. Monitor your serial monitor for possible erros. If all goes well, your board will automatically connect to the library.</p>
+						<p>3. After uploading the sketch, make sure to click the restart button on your board. Monitor your serial monitor for possible erros. If all goes well, your board will automatically connect to the platform.</p>
 						<div className={(this.state.connected) ? "text-success font-weight-bold" : "text-danger font-weight-bold"}>{(this.state.connected) ? "Connected Successfully!" : "Awaiting connection..."}</div>
 					</Row>
 					<Button className="submit" onClick={() => this.Delete()} variant="danger" block disabled={this.state.deleteClicked}><FontAwesomeIcon icon={faTrash}/> Delete</Button>
