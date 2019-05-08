@@ -111,7 +111,7 @@ class Notifications extends Component {
 					</Col>
 					<Col>
 						<Form.Control defaultValue={this.state.triggerOperation} onChange={(e) => {this.setState({triggerOperation: e.target.value})}} as="select">					
-							<option value=">">{"<"}</option>
+							<option value=">">{">"}</option>
 							<option value="<">{"<"}</option>
 							<option value="=">=</option>
 							<option value="changed">Changed</option>
