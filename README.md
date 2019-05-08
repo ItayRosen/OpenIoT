@@ -53,7 +53,7 @@ All contributions and contributors are welcome. If you've ran into issues, pleas
 * Help with developing new features.
 * Report coding architacture and security issues.
 
-## Release History
+## Library Release History
 
 * 0.1.3
    * Added support for WiFiManager and external wifi management in general.
