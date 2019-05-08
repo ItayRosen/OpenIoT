@@ -118,13 +118,13 @@ class Overview extends Component {
 	Element(props) {
 		return (
 			<Col xs={{span: 6}} lg={{span: 4}}  xl={{span: 3}}>
-				<div className="box">
+				<div className="box" style={{padding: "10px", minHeight: "140px"}}>
 					<Row>
 						<Col xs={{span: 3}} className="text-left" style={{paddingTop: "5px"}}>
 							<FontAwesomeIcon  color={props.color} size="2x" icon={props.icon}/>
 						</Col>
 						<Col xs={{span: 9}} className="text-right">
-							<Row><Col className="text-dark" style={{cursor: "pointer", fontWeight: "450"}} onClick={() => this.loadElementData(props)}>{props.name}</Col></Row>
+							<Row><Col className="title" onClick={() => this.loadElementData(props)}>{props.name}</Col></Row>
 							<Row><Col className="d-none d-md-block">{props.type}</Col></Row>
 						</Col>
 						<Col xs={{span: 12}} className="d-block d-md-none">{props.type}</Col>
