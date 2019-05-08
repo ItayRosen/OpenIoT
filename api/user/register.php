@@ -33,9 +33,9 @@ if (!isset($data -> email) || !filter_var($data -> email,FILTER_VALIDATE_EMAIL))
 }
 
 //validate password
-if (!isset($data -> password) || strlen($data -> password) < 6 || strlen($data -> password) > 30)
+if (!isset($data -> password) || strlen($data -> password) < 6 || strlen($data -> password) > 100)
 {
-	$core -> output(400,["text" => "Password must be between 6 and 30 characters", "field" => "password"]);
+	$core -> output(400,["text" => "Password must be between 6 and 100 characters", "field" => "password"]);
 }
 
 //check if the email is taken

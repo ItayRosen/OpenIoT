@@ -39,9 +39,9 @@ if (!isset($data -> userID))
 }
 
 //validate password
-if (!isset($data -> password) || strlen($data -> password) < 6 || strlen($data -> password) > 30)
+if (!isset($data -> password) || strlen($data -> password) < 6 || strlen($data -> password) > 100)
 {
-	$core -> output(400,"Password must be between 6 and 30 characters");
+	$core -> output(400,"Password must be between 6 and 100 characters");
 }
 
 //validate token
