@@ -66,6 +66,11 @@ All contributions and contributors are welcome. If you've ran into issues, pleas
 
 * 0.1.0
     * First release
+    
+## What's New
+
+* 05/05 - WiFi Manager support added to library
+* 02/05 - Self hosting capability added
 
 
 <!-- Markdown links -->
