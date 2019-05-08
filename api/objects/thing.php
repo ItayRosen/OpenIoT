@@ -21,8 +21,7 @@ class Thing {
 	public $sketchSize;
 	public $sketchHash;
 	public $password;
-	
-	private $createdTime;
+	public $createdTime;
 	
     // constructor with $db as database connection
     public function __construct($db){
@@ -38,7 +37,11 @@ class Thing {
 		if (!$data || !isset($data["share"][$_SESSION['ID']])) return false;
 		$this -> id = $id;
 		//elements to read
-		$elements = ["name","ip","status","board","lastActivity","ports","variables","functions","version","password","freeSketchSpace","sketchSize","sketchHash","OTA","password"];
+		$elements = ["name","ip","status","board","lastActivity","ports","variables","functions","version","password","freeSketchSpace","sketchSize","sketchHash","OTA","password","createdTime"];
+		//remove 0 indexed port
+		if (isset($data["ports"][1])) {
+			unset($data["ports"][0]);
+		}
 		//update elements 
 		foreach ($elements as $element) {
 			$this -> $element = (!isset($data[$element])) ? null : $data[$element];
@@ -261,5 +264,10 @@ class Thing {
 		}
 		//update
 		return $this -> conn -> getReference($this -> table."/".$this -> id."/OTA") -> remove();
+	}
+	
+	//read element's logs
+	public function readElement($name) {
+		return $this -> conn -> getReference("logs/".$this -> id."/".$name) -> getValue();
 	}
 }
