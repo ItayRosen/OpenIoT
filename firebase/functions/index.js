@@ -54,43 +54,51 @@ function validateEmail(email) {
     return re.test(String(email).toLowerCase());
 }
 
-//Notification for GPIO
-exports.portsListener = functions.database.ref('things/{thingID}/ports/{portID}/value').onUpdate((change, context) => {
-	//get port value
-	const value = change.after.val();
-	//read port name 
-	return change.after.ref.parent.child("name").once("value", nameSnap => {
-		const name = nameSnap.val();
-		//set notifications reference
-		const notificationsRef = admin.database().ref('things/'+context.params.thingID+'/notifications');
-		//read associated notifications
-		return notificationsRef.orderByChild("triggerValue").equalTo(context.params.portID).once("value",notificationsSnap => {
-			//loop through notifications
-			notificationsSnap.forEach(notificationSnap => {
-				const notification = notificationSnap.val();
-				//check that at least 10 minutes have passed since last activity
-				if (notification.lastActivity > Date.now()/1000 + 600) return null;
-				// update last activity
-				notificationsRef.child(notificationSnap.key).child("lastActivity").set(Math.round(Date.now()/1000));
-				//fire email
-				if (notification.action === "email") {
-					email(notification.actionValue, "OpenIoT - '" + notification.name + "' fired!", "Your notification (" + notification.name + ") has just fired! It means that port " + name + " has just changed its state.");
-				}
-				//fire webhook
-				else {					
-					webhook(notification.actionValue);
-				}
+//GPIO listener
+exports.portsListener = functions.database.ref('things/{thingID}/ports/{portID}').onUpdate((change, context) => {
+	//get port data
+	const port = change.after.val();
+	//update logs
+	let now = Math.floor(Date.now() / 1000);
+	if (now - port.lastActivity > 600 || typeof port.lastActivity === "undefined") {
+		change.after.ref.child("lastActivity").set(now);
+		admin.database().ref('logs/'+context.params.thingID+'/'+port.name+'/'+now).set(port.value);
+	}
+	//set notifications reference
+	const notificationsRef = admin.database().ref('things/'+context.params.thingID+'/notifications');
+	//read associated notifications
+	return notificationsRef.orderByChild("triggerValue").equalTo(context.params.portID).once("value",notificationsSnap => {
+		//loop through notifications
+		notificationsSnap.forEach(notificationSnap => {
+			const notification = notificationSnap.val();
+			//check that at least 10 minutes have passed since last activity
+			if (notification.lastActivity > now + 600) return null;
+			// update last activity
+			notificationsRef.child(notificationSnap.key).child("lastActivity").set(now);
+			//fire email
+			if (notification.action === "email") {
+				email(notification.actionValue, "OpenIoT - '" + notification.name + "' fired!", "Your notification (" + notification.name + ") has just fired! It means that port " + port.name + " has just changed its state.");
+			}
+			//fire webhook
+			else {					
+				webhook(notification.actionValue);
+			}
 				return true;
-			});
-			return true;
 		});
+		return true;
 	});
 });
 
 //Notification for variables
 exports.variablesListener = functions.database.ref('things/{thingID}/variables/{name}').onUpdate((change, context) => {
 	//read value
-	const value = change.after.val();
+	const variable = change.after.val();
+	//update logs
+	let now = Math.floor(Date.now() / 1000);
+	if (now - variable.lastActivity > 600 || typeof variable.lastActivity === "undefined") {
+		change.after.ref.child("lastActivity").set(now);
+		admin.database().ref('logs/'+context.params.thingID+'/'+context.params.name+'/'+now).set(variable.value);
+	}
 	//set ref
 	const notificationsRef = admin.database().ref('things/'+context.params.thingID+'/notifications');
 	//read associated notifications
@@ -99,40 +107,40 @@ exports.variablesListener = functions.database.ref('things/{thingID}/variables/{
 		notificationsSnap.forEach(notificationSnap => {
 			const notification = notificationSnap.val();
 			//check that at least 10 minutes have passed since last activity
-			if (notification.lastActivity > Date.now()/1000 + 600) return null;
+			if (notification.lastActivity > now + 600) return null;
 			//test criteria
 			let result = false;
 			let state = "";
 			switch (notification.triggerOperation) {
 				case "changed":
 					result = true;
-					state = "changed to " + value;
+					state = "changed to " + variable.value;
 					break;
 					
 				case "<":
-					if (notification.lastStatus === 0 && parseFloat(value) < parseFloat(notification.triggerOperationValue)) {
+					if (notification.lastStatus === 0 && parseFloat(variable.value) < parseFloat(notification.triggerOperationValue)) {
 						result = true;
-						state = "smaller than " + notification.triggerOperationValue + " (" + value + ")";
+						state = "smaller than " + notification.triggerOperationValue + " (" + variable.value + ")";
 						notificationsRef.child(notificationSnap.key).child("lastStatus").set(1);
 					}
-					else if (notification.lastStatus === 1 && parseFloat(value) >= parseFloat(notification.triggerOperationValue)) {
+					else if (notification.lastStatus === 1 && parseFloat(variable.value) >= parseFloat(notification.triggerOperationValue)) {
 						notificationsRef.child(notificationSnap.key).child("lastStatus").set(0);
 					}
 					break;
 					
 				case ">":
-					if (notification.lastStatus === 0 && parseFloat(value) > parseFloat(notification.triggerOperationValue)) {
+					if (notification.lastStatus === 0 && parseFloat(variable.value) > parseFloat(notification.triggerOperationValue)) {
 						result = true;
-						state = "greater than " + notification.triggerOperationValue + " (" + value + ")";
+						state = "greater than " + notification.triggerOperationValue + " (" + variable.value + ")";
 						notificationsRef.child(notificationSnap.key).child("lastStatus").set(1);
 					}
-					else if (notification.lastStatus === 1 && parseFloat(value) <= parseFloat(notification.triggerOperationValue)) {
+					else if (notification.lastStatus === 1 && parseFloat(variable.value) <= parseFloat(notification.triggerOperationValue)) {
 						notificationsRef.child(notificationSnap.key).child("lastStatus").set(0);
 					}
 					break;
 					
 				case "=":
-					if (parseFloat(value) === parseFloat(notification.triggerOperationValue)) {
+					if (parseFloat(variable.value) === parseFloat(notification.triggerOperationValue)) {
 						state = "equal to " + notification.triggerOperationValue;
 						result = true;
 					}
@@ -140,7 +148,7 @@ exports.variablesListener = functions.database.ref('things/{thingID}/variables/{
 			}
 			if (result) {
 				//update last activity
-				notificationsRef.child(notificationSnap.key).child("lastActivity").set(Math.round(Date.now()/1000));
+				notificationsRef.child(notificationSnap.key).child("lastActivity").set(now);
 				//fire email
 				if (notification.action === "email") {
 					email(notification.actionValue, "OpenIoT - '" + notification.name + "' fired!", "Your notification (" + notification.name + ") has just fired! It means that variable " + context.params.name + " is now " + state + ".");
@@ -253,7 +261,7 @@ exports.loginSecurity = functions.database.ref('loginLogs/{ID}').onCreate((snaps
 		});
 		//if we have more than 4 failed attemps then block ip
 		if (i >= 5) {
-			admin.database().ref('/banIP').push({date: now, ip: log.ip});
+			admin.database().ref('banIP').push({date: now, ip: log.ip});
 		}
 		return true;
 	});

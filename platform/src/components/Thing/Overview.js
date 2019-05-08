@@ -4,6 +4,7 @@ import {Redirect} from "react-router-dom";
 import ReactTooltip from 'react-tooltip'
 import {API_URL} from '../../constants/constants.js'
 import copy from 'copy-to-clipboard';
+import {Line} from 'react-chartjs-2';
 
 //Confirm Alert
 import { confirmAlert } from 'react-confirm-alert';
@@ -60,15 +61,20 @@ class Overview extends Component {
 			access: props.thing.access,
 			version: props.thing.version,
 			password: props.thing.password,
+			createdTime: props.thing.createdTime,
 			renameModal: false,
 			tokenModal: false,
+			elementModal: false,
+			elementModalData: 0,
+			elementModalLogs: 0,
 			newName: "",
 			clicked: false,
 			callback: "",
 			loader: null,
 			transmitting: false,
 			tokenCopied: false,
-			redirect: ""
+			redirect: "",
+			loadElementsInterval: 0
 		};
 		
 		this.Ports = this.Ports.bind(this);		
@@ -78,40 +84,36 @@ class Overview extends Component {
 		this.Slider = this.Slider.bind(this);			
 		this.ChangePort = this.ChangePort.bind(this);			
 		this.renameModal = this.renameModal.bind(this);			
-		this.tokenModal = this.tokenModal.bind(this);			
+		this.tokenModal = this.tokenModal.bind(this);	
+		this.elementModal = this.elementModal.bind(this);
 		this.SubmitName = this.SubmitName.bind(this);
 		this.Delete = this.Delete.bind(this);	
 		this.Element = this.Element.bind(this);	
 		this.Switch = this.Switch.bind(this);	
 		this.ChangeVariable = this.ChangeVariable.bind(this);	
-		this.loadElements = this.loadElements.bind(this);	
+		this.loadElements = this.loadElements.bind(this);
+		this.loadElementData = this.loadElementData.bind(this);
 		
 		this.notificationDOMRef = React.createRef();
 	}
 	
 	componentWillMount() {
 		//Load elements every 10 seconds
-		setInterval(this.loadElements, 10000);
+		let interval = setInterval(this.loadElements, 10000);
+		this.setState({loadElementsInterval: interval});
+		//show notification helper if it's a new thing (created in the last hour)
+		setTimeout(() => {
+			if (this.state.createdTime > (Date.now()) / 1000 - 3600) {
+				this.addNotification("Great job!","Now that you've connected your first device, it's time to add components. Click on \"Learn\" to learn how to do it.", "info", 0);
+			}
+		}, 1000);
 	}
 	
 	componentWillUnmount() {
-		
+		clearInterval(this.state.loadElementsInterval);
 	}
 	
-	loadElements() {
-		fetch(API_URL + "thing/read.php", {credentials: 'include', method: "POST", body: JSON.stringify({"id": this.state.thingID})})
-		.then(res => res.json())
-		.then(
-			(result) => {
-				if (result.response === 200) {
-					this.setState({ports: result.data.ports, variables: result.data.variables, functions: result.data.functions, lastActivity: result.data.lastActivity, status: result.data.status});
-				}
-			},
-			(error) => {
-				console.log(error);
-			}
-		)
-	}
+	/* Element */
 	
 	Element(props) {
 		return (
@@ -122,7 +124,7 @@ class Overview extends Component {
 							<FontAwesomeIcon  color={props.color} size="2x" icon={props.icon}/>
 						</Col>
 						<Col xs={{span: 9}} className="text-right">
-							<Row><Col className="text-dark">{props.name}</Col></Row>
+							<Row><Col className="text-dark" style={{cursor: "pointer", fontWeight: "450"}} onClick={() => this.loadElementData(props)}>{props.name}</Col></Row>
 							<Row><Col className="d-none d-md-block">{props.type}</Col></Row>
 						</Col>
 						<Col xs={{span: 12}} className="d-block d-md-none">{props.type}</Col>
@@ -138,6 +140,181 @@ class Overview extends Component {
 		);
 	}
 	
+	elementModal(props) {
+		//set modal content
+		let content
+		if (this.state.elementModalLogs === 0) {
+			content = loader;
+		}
+		else if (this.state.elementModalLogs === -1) {
+			content = <p>This element is still empty..</p>;
+		}
+		else {
+			if (this.state.elementModalData.element === "port" || this.state.elementModalData.elementDataType === "int" || this.state.elementModalData.elementDataType === "float") {
+				content = <this.Chart data={this.state.elementModalLogs} displayTicks={true} unit="day" color="rgba(222, 75, 57, 1)"/>;
+			}
+			else {
+				content = <this.Logs data={this.state.elementModalLogs} />;
+			}
+		}
+	
+		return (
+		  <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+			<Modal.Header closeButton>
+			  <Modal.Title id="contained-modal-title-vcenter">{this.state.elementModalData.name}</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Form.Group>
+					{content}
+				</Form.Group>
+			</Modal.Body>
+			<Modal.Footer>
+				<Button onClick={props.onHide} variant="secondary">Close</Button>
+			</Modal.Footer>
+		  </Modal>
+		);
+	}
+	
+	//load all elements
+	loadElements() {
+		fetch(API_URL + "thing/read.php", {credentials: 'include', method: "POST", body: JSON.stringify({"id": this.state.thingID})})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				if (result.response === 200) {
+					this.setState({ports: result.data.ports, variables: result.data.variables, functions: result.data.functions, lastActivity: result.data.lastActivity, status: result.data.status});
+				}
+			},
+			(error) => {
+				console.log(error);
+			}
+		)
+	}
+	
+	//load element's logs (for logs list or chart)
+	loadElementData(props) {
+		this.setState({elementModalData: props, elementModal: true, elementModalLogs: 0});
+		//Load element's data (logs)
+		fetch(API_URL + "thing/readElement.php", {credentials: 'include', method: "POST", body: JSON.stringify({"thingID": this.state.thingID, "name": props.name})})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				if (result.response === 200) {
+					let data = result.data;
+					if (this.state.elementModalData.element === "port" || this.state.elementModalData.elementDataType === "int" || this.state.elementModalData.elementDataType === "float") {
+						data = this.generateChartData(data);
+					}
+					this.setState({elementModalLogs: data});
+				}
+				else if (result.response === 204) {
+					this.setState({elementModalLogs: -1});
+				}
+			},
+			(error) => {
+				console.log(error);
+			}
+		)
+	}
+	
+	//Parse logs to list
+	Logs(props) {
+		return props.data.map((log, i) => {
+			let date = new Date(log.id * 1000);
+			return (
+				<Row key={i}><Col>{date.toUTCString()}</Col><Col style={{color: "#de4b39"}}>{log[0]}</Col></Row>
+			);
+		});
+	}
+	
+	
+	/* Chart */
+	
+	generateChartData(logs) {
+		let now = Date.now();
+		let timeStamp = Math.floor(now / 1000);
+		let data = [];
+		let lastIndex = 0;
+		let interval = 0;
+		//set the number of datapoints
+		if (timeStamp - logs[0].id > 86400 * 30) {
+			interval = 3600;
+		}
+		else if (timeStamp - logs[0].id > 3600 * 12) {
+			interval = 600;
+		}
+		else {
+			interval = 60;
+		}
+		let n = Math.floor((timeStamp - logs[0].id) / interval);
+		//create timestamps
+		for (let i = 0; i < n; i++) { 
+			data.push({y: 0, x: timeStamp - i * interval, t: new Date(now - i * interval * 1000)});
+		}
+		data = data.reverse();
+		//loop through logs
+		for (let i = 0; i < logs.length; i++) {
+			//loop through timestamps
+			for (let j = lastIndex; j < n; j++) {
+				//discard timestamps which are not between this log and the next (or it's the last log)
+				if (data[j].x > logs[i].id && (i === logs.length-1 || data[j].x < logs[i+1].id)) {
+					data[j].y = parseFloat(logs[i][0]);
+					lastIndex = i;
+				}
+			}
+		}
+		return data;
+	}
+	
+	Chart(props) {
+		const data = {
+		  datasets: [
+			{
+				data: props.data,
+				pointRadius: 0.2,
+				backgroundColor: props.color
+			}
+		  ]
+		};
+
+		const options = {
+			scales: {
+				yAxes: [{
+					ticks: {
+						display: props.displayTicks
+					},
+					gridLines: {
+						color: (props.displayTicks) ? "rgba(0, 0, 0, 0)" : ""
+					}
+				}],
+				xAxes: [{
+					type: 'time',
+					gridLines: {
+//						color: "rgba(0, 0, 0, 0)"
+					},
+					time: {
+						//unit: props.unit,
+						displayFormats: {
+							hour: 'HH:mm'
+						}
+					}
+				}]
+			},
+			legend: {
+				display: false
+			},
+			tooltips: {
+//				enabled: false,
+			},
+			
+		};
+
+		return (
+			<Line data={data} options={options}/>
+		);
+	}
+	
+	/* Notifications */
+	
 	addNotification(title, message, type, timeout = 3000) {
 		this.notificationDOMRef.current.addNotification({
 		  title: title,
@@ -151,6 +328,8 @@ class Overview extends Component {
 		  dismissable: { click: true }
 		});
 	}
+	
+	/* Data handling */
 	
 	Transmit(data) {
 		console.log(data);
@@ -216,7 +395,7 @@ class Overview extends Component {
 		if (this.state.ports) {
 			return this.state.ports.map((port, i) => {
 				return (
-					<this.Element key={i} uniqueID={port.name} icon={faPlug} color="#4fbad4" name={port.name} type={((port.mode === 1) ? "output " : "input ") + port.type + " port"}>
+					<this.Element key={i} uniqueID={port.name} icon={faPlug} element="port" color="#4fbad4" name={port.name} type={((port.mode === 1) ? "output " : "input ") + port.type + " port"}>
 						{(port.type === "digital") ? <this.Switch uniqueID={port.name} port={port} i={i}/> : <this.Slider uniqueID={port.name} color="#4fbad4" port={port} i={i}/>}
 					</this.Element>
 				)
@@ -303,7 +482,7 @@ class Overview extends Component {
 		if (this.state.variables) {
 			return this.state.variables.map((variable, i) => {				
 				return (
-					<this.Element key={i} uniqueID={variable.id} icon={faSquareRootAlt} color="#f9bb5c" name={variable.id} type={variable.type + " variable"}>
+					<this.Element key={i} uniqueID={variable.id} element="variable" elementDataType={variable.type} icon={faSquareRootAlt} color="#f9bb5c" name={variable.id} type={variable.type + " variable"}>
 						<InputGroup>
 							<FormControl onChange={(e) => this.ChangeVariable(i, e.target.value)} type={(variable.type === "int" || variable.type === "float") ? "number" : "text"} placeholder={variable.value} />
 							<InputGroup.Append>
@@ -337,7 +516,7 @@ class Overview extends Component {
 		if (this.state.functions) {
 			return this.state.functions.map((Function, i) => {
 				return (
-					<this.Element key={i} uniqueID={Function.id} icon={faCode} color="#67cc93" name={Function.id} type="Function">
+					<this.Element key={i} uniqueID={Function.id} element="function" icon={faCode} color="#67cc93" name={Function.id} type="Function">
 						<Button size="sm" disabled={(this.state.loader === Function.id)} className="functionButton" block type="button" onClick={() => this.fireFunction(i, Function.id)}>RUN</Button>
 					</this.Element>
 				)
@@ -400,6 +579,8 @@ class Overview extends Component {
 		);
 	}
 	
+	/* Change Thing's name */
+	
 	SubmitName() {
 		this.setState({callback: "", clicked: true});
 		let data = {
@@ -422,6 +603,31 @@ class Overview extends Component {
 		   }
 		)
 	}
+	
+	renameModal(props) {
+		return (
+		  <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+			<Modal.Header closeButton>
+			  <Modal.Title id="contained-modal-title-vcenter">Edit Thing Name</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Form onSubmit={() => this.SubmitName(this.state.notificationID)}>
+					<Form.Group>
+						<Form.Label>Thing Name</Form.Label>
+						<Form.Control type="text" onChange={(e) => {this.setState({newName: e.target.value})}} placeholder={"New name for " + this.state.name} />
+					</Form.Group>
+				</Form>
+			</Modal.Body>
+			<Modal.Footer>
+				<div className="text-danger">{this.state.callback}</div>
+				<Button disabled={this.state.clicked} onClick={this.SubmitName} variant="success">Change</Button>
+				<Button onClick={props.onHide} variant="secondary">Close</Button>
+			</Modal.Footer>
+		  </Modal>
+		);
+	}
+	
+	/* Delete Thing operation */
 	
 	Delete() {
 		confirmAlert({
@@ -457,6 +663,8 @@ class Overview extends Component {
 		})
 	}
 	
+	/* View Thing's Token */
+	
 	tokenModal(props) {
 		
 		const token = this.state.thingID + "/" + this.state.password;
@@ -488,29 +696,6 @@ class Overview extends Component {
 		);
 	}
 	
-	renameModal(props) {
-		return (
-		  <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-			<Modal.Header closeButton>
-			  <Modal.Title id="contained-modal-title-vcenter">Edit Thing Name</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<Form onSubmit={() => this.SubmitName(this.state.notificationID)}>
-					<Form.Group>
-						<Form.Label>Thing Name</Form.Label>
-						<Form.Control type="text" onChange={(e) => {this.setState({newName: e.target.value})}} placeholder={"New name for " + this.state.name} />
-					</Form.Group>
-				</Form>
-			</Modal.Body>
-			<Modal.Footer>
-				<div className="text-danger">{this.state.callback}</div>
-				<Button disabled={this.state.clicked} onClick={this.SubmitName} variant="success">Change</Button>
-				<Button onClick={props.onHide} variant="secondary">Close</Button>
-			</Modal.Footer>
-		  </Modal>
-		);
-	}
-	
 	render() {
 		if (this.state.redirect !== "") {
 			return (<Redirect to={this.state.redirect} />);
@@ -521,6 +706,7 @@ class Overview extends Component {
 					<ReactNotification ref={this.notificationDOMRef} />
 					<this.renameModal show={this.state.renameModal} onHide={() => this.setState({ renameModal: false })}/>
 					<this.tokenModal show={this.state.tokenModal} onHide={() => this.setState({ tokenModal: false })}/>
+					<this.elementModal show={this.state.elementModal} onHide={() => this.setState({ elementModal: false })}/>
 					<this.Summary />
 					
 					<Row hidden={this.state.ports === undefined && this.state.variables === undefined && this.state.functions === undefined}>
