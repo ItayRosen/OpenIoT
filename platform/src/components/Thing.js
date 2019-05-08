@@ -34,6 +34,7 @@ class Thing extends Component {
 			authenticateThing: 0, 
 			status: 0, 
 			lastActivity: "", 
+			createdTime: 0, 
 			redirect: "",
 			access: 0,
 			url: this.props.location.search,
@@ -74,6 +75,7 @@ class Thing extends Component {
 		.then(res => res.json())
 		.then(
 		   (result) => {
+			   console.log(result);
 				if (result.response === 200) {
 					this.setState({ 
 						authenticateThing: 1,
@@ -83,6 +85,7 @@ class Thing extends Component {
 						access: result.data.access,
 						status: result.data.status,
 						lastActivity: result.data.lastActivity,
+						createdTime: result.data.createdTime,
 						ports: result.data.ports,
 						variables: result.data.variables,
 						functions: result.data.functions,

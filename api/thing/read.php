@@ -46,10 +46,10 @@ else {
 	// read a thing
 	if (!$thing -> read($data -> id))
 	{
-		$core -> output(204,"Invalid thing id or insufficiant permissions");
+		$core -> output(403,"Invalid thing id or insufficiant permissions");
 	}
 	// set elements
-	$elements = ["connected","access","name","ip","status","board","lastActivity","ports","variables","functions","version","password"];
+	$elements = ["connected","access","name","ip","status","board","lastActivity","ports","variables","functions","version","password","createdTime"];
 	// update elements 
 	$return = [];
 	foreach ($elements as $element) {
