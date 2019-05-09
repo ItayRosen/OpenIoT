@@ -47,6 +47,16 @@ h1, h4, h3, h5 {
 	margin-top: 10px;
 }
 
+.box .title {
+	color: black;
+	font-weight: 450;
+	cursor: pointer;
+}
+
+.box .title:hover {
+	color: #de4b39;
+}
+
 /* Header */
 
 #header .dropdown-toggle::after {
@@ -297,12 +307,6 @@ h1, h4, h3, h5 {
 }
 
 /* Overview */ 
-
-#overview .box {
-	padding: 10px;
-	min-height: 140px;
-	margin-top: 5px;
-}
 
 #overview .functionButton {
 	background: #67cc93;
