@@ -44,7 +44,7 @@ if (empty($data)) {
 }
 else {
 	// read a thing
-	if (!$thing -> read($data -> id))
+	if (!$thing -> read($user -> id, $data -> id))
 	{
 		$core -> output(403,"Invalid thing id or insufficiant permissions");
 	}

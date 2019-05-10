@@ -5,8 +5,8 @@ class User {
 	private $reference;
 	
     // object properties
-	private $id;
 	private $password;
+	public $id;
     public $email;
     public $registrationDate;
     public $lastActivity;
@@ -16,20 +16,26 @@ class User {
     // constructor with $db as database connection
     public function __construct($db){
         $this -> conn = $db;
+		//platform
 		if (isset($_SESSION['ID'])) {
-			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$_SESSION['ID']);
 			$this -> id = $_SESSION['ID'];
+			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
+		}
+		//api
+		else if (isset($_SERVER['HTTP_TOKEN'])) {
+			$data = $this -> conn -> getReference($this -> table) -> orderByChild("token") -> equalTo($_SERVER['HTTP_TOKEN']) -> getValue();
+			$this -> id = key($data);
+			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
 		}
 		else {
 			$this -> reference = $this -> conn -> getReference($this -> table);
 		}
     }
 	
-	//check if the user is logged in
-	public function isLoggedIn() {
-		if (isset($_SESSION['ID']))
+	//authenticate request (user session / api token)
+	public function authenticate() {
+		if (isset($_SESSION['ID']) || isset($_SERVER['HTTP_TOKEN']))
 		{
-			//verifiy that there's a user with this ID
 			return ($this -> reference -> getSnapshot() -> exists());
 		}
 		return false;

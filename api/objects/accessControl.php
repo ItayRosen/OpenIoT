@@ -32,8 +32,7 @@ class AccessControl {
 	}
 	
 	// check user's access status
-	public function checkPermissions($id = null) {
-		if (is_null($id)) $id = $_SESSION['ID'];
+	public function checkPermissions($id) {
 		$data = $this -> reference -> getChild($id) -> getValue();
 		if (empty($data)) return false;
 		return true;

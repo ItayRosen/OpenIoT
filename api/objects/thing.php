@@ -29,12 +29,12 @@ class Thing {
     }
 	
 	// read thing's data
-	public function read($id) {
+	public function read($userID, $id) {
 		//set reference 
 		$reference = $this -> conn -> getReference($this -> table."/".$id);
 		//read
 		$data = $this -> conn -> getReference($this -> table."/".$id) -> getValue();
-		if (!$data || !isset($data["share"][$_SESSION['ID']])) return false;
+		if (!$data || !isset($data["share"][$userID])) return false;
 		$this -> id = $id;
 		//elements to read
 		$elements = ["name","ip","status","board","lastActivity","ports","variables","functions","version","password","freeSketchSpace","sketchSize","sketchHash","OTA","password","createdTime"];
@@ -47,7 +47,7 @@ class Thing {
 			$this -> $element = (!isset($data[$element])) ? null : $data[$element];
 		}
 		//add access permissions
-		$this -> access = $data["share"][$_SESSION['ID']];
+		$this -> access = $data["share"][$userID];
 		//update connection status
 		$this -> connected = ($this -> lastActivity > 0) ? 1 : 0;
 		return true;
@@ -74,13 +74,11 @@ class Thing {
 		$elements = ["name","ip","status","lastActivity","board"];
 		$i = 0;
 		foreach ($ids as $id) {
-			if ($this -> checkPermissions($id)) {
-				$things[$i]["ID"] = $id;
-				$data = $this -> conn -> getReference($this -> table."/".$id) -> getValue();
-				$things[$i]["connected"] = ($data["lastActivity"] > 0) ? 1 : 0;
-				foreach ($elements as $element) {
-					$things[$i][$element] = $data[$element];
-				}
+			$things[$i]["ID"] = $id;
+			$data = $this -> conn -> getReference($this -> table."/".$id) -> getValue();
+			$things[$i]["connected"] = ($data["lastActivity"] > 0) ? 1 : 0;
+			foreach ($elements as $element) {
+				$things[$i][$element] = $data[$element];
 			}
 			$i++;
 		}
@@ -107,7 +105,7 @@ class Thing {
 	}
 	
 	// new thing
-	public function newThing($name, $board) {
+	public function newThing($userID, $name, $board) {
 		//create password
 		$password = bin2hex(openssl_random_pseudo_bytes(10));
 		//create new key and reference 
@@ -127,27 +125,17 @@ class Thing {
 			$thing[$element] = $this -> $element;
 		}
 		//set sharing & insert log
-		$thing["share"][$_SESSION['ID']] = 2;
+		$thing["share"][$userID] = 2;
 		$thing["logs"][time()] = "Thing created successfully";
 		//update DB
 		$updates = [
 			$this -> table.'/'.$id => $thing,
-			'users/'.$_SESSION['ID'].'/things/'.$id => true
+			'users/'.$userID.'/things/'.$id => true
 		];
 		$this -> conn -> getReference() -> update($updates);
 		//add to mosquitto
 		exec("sudo /home/addUser.sh ".$id." ".$password);
 		return $id;
-	}
-	
-	// check permissions
-	public function checkPermissions($id) {
-		return ($this -> conn -> getReference($this -> table."/".$id."/share/".$_SESSION['ID']) -> getSnapshot() -> exists());
-	}
-	
-	// get thing's password
-	public function getPassword() {
-		return $this -> password;
 	}
 	
 	// transmit GPIO

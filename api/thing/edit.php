@@ -41,7 +41,7 @@ if (!$thing -> validateName($data -> name)) {
 
 // check for sufficiant permissions
 $accessControl = new AccessControl($db, $data -> id);
-if ($accessControl -> checkPermissions() != 2) {
+if ($accessControl -> checkPermissions($user -> id) != 2) {
 	$core -> output(403,"Insufficiant permissions");
 }
 

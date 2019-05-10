@@ -35,7 +35,7 @@ if (!$user -> isLoggedIn())
 }
 
 // check that the user is not trying to remove himself
-if ($data -> id === $_SESSION['ID']) {
+if ($data -> id === $user -> id) {
 	$core -> output(401,"User can not remove himslef");
 }
 
@@ -43,7 +43,7 @@ if ($data -> id === $_SESSION['ID']) {
 $accessControl = new AccessControl($db, $data -> thingID);
 
 // check permissions
-if ($accessControl -> checkPermissions() != 2)
+if ($accessControl -> checkPermissions($user -> id) != 2)
 	$core -> output(204,"Invalid thing id or insufficiant permissions");
 
 if ($accessControl -> remove($data -> id)) $core -> output(200,"Access removed successfully");

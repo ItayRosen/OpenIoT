@@ -45,7 +45,7 @@ if (!$thing -> validateBoard($data -> board)) {
 }
 
 // create a new thing
-$thingID = $thing -> newThing($data -> name, $data -> board);
+$thingID = $thing -> newThing($user -> id, $data -> name, $data -> board);
 if ($thingID) {
 	$core -> output(200,"Thing has been created successfully",$thingID);
 }
