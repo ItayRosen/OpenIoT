@@ -69,6 +69,7 @@ All contributions and contributors are welcome. If you've ran into issues, pleas
     
 ## What's New
 
+* 08/05 - Data charts and logs for GPIO & Variable components
 * 05/05 - WiFi Manager support added to library
 * 02/05 - Self hosting capability added
 
