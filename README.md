@@ -40,7 +40,7 @@ As of now, only ESP8266 is supported. I do wish to add support for as many board
 - [ ] Mobile App
 - [ ] Github OTA - push OTA updates from Github
 - [ ] API - http api for 3rd party applications
-- [ ] Data Charts - log components data on platform and plot charts with it.
+- [X] Data Charts - log components data on platform and plot charts with it.
 - [X] Wifi Manager - add support for Wifi Manager (insert wifi credentials via web server instead of hard-coding)
 - [ ] Coding Hub - create applications that can control multiple Things in one code
 
