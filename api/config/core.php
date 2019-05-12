@@ -3,8 +3,7 @@ include_once('constants.php');
 
 class Core {
 	
-	private $encryption_key = 'juhf9832hyufg2dhdsougf2jnhdb';
-	public  $publicURL      = 'http://localhost:4200/';
+	private $encryption_key = 'jbdoq6720anbgu821ujxn29f';
 	
 	public function encrypt($query)
 	{
