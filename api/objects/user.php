@@ -6,7 +6,7 @@ class User {
 	
     // object properties
 	private $password;
-	public $id;
+	public $id = 0;
     public $email;
     public $registrationDate;
     public $lastActivity;
@@ -17,27 +17,25 @@ class User {
     // constructor with $db as database connection
     public function __construct($db){
         $this -> conn = $db;
-		//platform
-		if (isset($_SESSION['ID'])) {
-			$this -> id = $_SESSION['ID'];
-			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
-		}
-		//api
-		else if (isset($_SERVER['HTTP_TOKEN'])) {
-			$data = $this -> conn -> getReference($this -> table) -> orderByChild("token") -> equalTo($_SERVER['HTTP_TOKEN']) -> getValue();
-			$this -> id = key($data);
-			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
-		}
-		else {
-			$this -> reference = $this -> conn -> getReference($this -> table);
-		}
+		$this -> reference = $this -> conn -> getReference($this -> table);
     }
 	
 	//authenticate request (user session / api token)
 	public function authenticate() {
-		if (isset($_SESSION['ID']) || isset($_SERVER['HTTP_TOKEN']))
-		{
+		//platform
+		if (isset($_SESSION['ID'])) {
+			$this -> id = $_SESSION['ID'];
+			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
 			return ($this -> reference -> getSnapshot() -> exists());
+		}
+		//API
+		else if (isset($_SERVER['HTTP_TOKEN'])) {
+			$data = $this -> reference -> orderByChild("token") -> equalTo($_SERVER['HTTP_TOKEN']) -> getValue();
+			if (!empty($data)) {
+				$this -> id = key($data);
+				$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -207,7 +205,7 @@ class User {
 	//generate a new api token
 	public function generateToken() {
 		$token = bin2hex(openssl_random_pseudo_bytes(30));
-		if ($this -> referece -> update(["token" => $token])) {
+		if ($this -> reference -> update(["token" => $token])) {
 			$this -> token = $token;
 			return true;
 		}
