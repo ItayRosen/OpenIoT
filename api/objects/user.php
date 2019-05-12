@@ -12,6 +12,7 @@ class User {
     public $lastActivity;
     public $rank;
 	public $things;
+	public $token;
 	
     // constructor with $db as database connection
     public function __construct($db){
@@ -45,11 +46,10 @@ class User {
 	public function read() {
 		$data = $this -> reference -> getValue();
 		if (!$data) return false;
-		$this -> email = $data["email"];
-		$this -> rank = $data["rank"];
-		$this -> lastActivity = $data["lastActivity"];
-		$this -> registrationDate = $data["registrationDate"];
-		$this -> things = $data["things"];
+		$elements = ["email","rank","lastActivity","registrationDate","things","token"];
+		foreach ($elements as $element) {
+			$this -> $$element = $data[$element];
+		}
 		return true;
 	}
 	
@@ -200,6 +200,18 @@ class User {
 		}
 		else {
 			$this -> conn -> getReference("banIP/".key($data)) -> remove();
+			return false;
+		}
+	}
+	
+	//generate a new api token
+	public function generateToken() {
+		$token = bin2hex(openssl_random_pseudo_bytes(30));
+		if ($this -> referece -> update(["token" => $token])) {
+			$this -> token = $token;
+			return true;
+		}
+		else {
 			return false;
 		}
 	}

@@ -17,22 +17,22 @@ $db = $firebase->getDatabase();
 $user = new User($db);
 $core = new Core;
 
+// get posted data
+$data = json_decode(file_get_contents("php://input"));
+ 
 //check if the user is logged in
 if (!$user -> isLoggedIn())
 {
-	$core -> output(409,"User is not logged in");
+	$core -> output(409,"User is not logged in.");
 }
 
-//check for valid data
-if (!$user -> read()) {
-	$core -> output(500,"Error reading user data");
+//update fields
+if ($user -> generateToken())
+{
+	$core -> output(200,$user -> token);
 }
-
-//choose elements
-$elements = ["rank","email","things","token"];
-$data = [];
-foreach ($elements as $element) {
-	$data[$element] = $user -> $element;
+else
+{
+	$core -> output(500,"Error ocurred trying to generate a new token. Please try again later");
 }
-$core -> output(200,$data);
 ?>
