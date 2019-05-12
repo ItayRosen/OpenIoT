@@ -29,7 +29,7 @@ if (!isset($data -> thingID) || !isset($data -> id)) {
 }
 
 // check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(401,"User is not logged in");
 }

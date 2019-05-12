@@ -18,7 +18,7 @@ $user = new User($db);
 $core = new Core;
 
 //check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(409,"User is not logged in");
 }

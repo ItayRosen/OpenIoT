@@ -34,7 +34,7 @@ if (!in_array($fileNameSplit[key($fileNameSplit)],$allowedExtensions)) {
 }
 
 // check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(401,"User is not logged in");
 }

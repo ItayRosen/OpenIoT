@@ -21,7 +21,7 @@ $core = new Core;
 $data = json_decode(file_get_contents("php://input"));
  
 // check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(409,"You are not logged in");
 }
