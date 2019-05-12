@@ -33,7 +33,7 @@ if (!isset($data -> id)) {
 	$core -> output(400,"Please set a thing ID");
 }
 
-// check for sufficiant permissions
+// check for sufficient permissions
 if (!$thing -> read($user -> id, $data -> id)) {
 	$core -> output(403,"Insufficient permissions or invalid thing ID");
 }
