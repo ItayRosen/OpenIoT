@@ -1,7 +1,0 @@
-.idea
-composer.lock
-vendor
-bin
-coverage
-coverage.xml
-dev
