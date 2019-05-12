@@ -36,7 +36,7 @@ if (!isset($data -> name) || empty($data -> name) || !isset($data -> thingID) ||
 // Check permissions
 if (!$thing -> read($user -> id, $data -> thingID))
 {
-	$core -> output(403,"Invalid thing id or insufficiant permissions");
+	$core -> output(403,"Invalid thing id or insufficient permissions");
 }
 
 // Get element data

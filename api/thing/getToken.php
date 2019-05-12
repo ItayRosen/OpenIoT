@@ -36,7 +36,7 @@ if (!isset($data -> id) || empty($data -> id)) {
 //read
 if (!$thing -> read($data -> id))
 {
-	$core -> output(204,"Invalid thing id or insufficiant permissions");
+	$core -> output(204,"Invalid thing id or insufficient permissions");
 }
 
 $token = $data -> id."/".$thing -> password;
