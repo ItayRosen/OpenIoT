@@ -39,7 +39,7 @@ if (!$thing -> validateName($data -> name)) {
 	$core -> output(400,"Please use a name between 3 and 20 characters");
 }
 
-// check for sufficiant permissions
+// check for sufficient permissions
 $accessControl = new AccessControl($db, $data -> id);
 if ($accessControl -> checkPermissions($user -> id) != 2) {
 	$core -> output(403,"Insufficient permissions");
