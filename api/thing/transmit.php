@@ -46,7 +46,7 @@ if (!isset($data -> value) && $data -> action != "reboot") {
 
 // validate permissions & read data
 if (!$thing -> read($user -> id, $data -> id)) {
-	$core -> output(403,"Insufficiant permissions");
+	$core -> output(403,"Insufficient permissions");
 }
 
 // check if Thing is offline
@@ -77,10 +77,10 @@ switch ($data -> action) {
 			$core -> output(400,"Variable / Type are not set");
 		}
 		//verify that value matches type
-		if ($data -> type == 2 && !ctype_digit($data -> type)) {
+		if ($data -> type == "int" && !ctype_digit($data -> type)) {
 			$core -> output(400, "Variable of type int must be numeric (digits only)");
 		}
-		else if ($data -> type == 3 && !is_numeric($data -> value)) {
+		else if ($data -> type == "float" && !is_numeric($data -> value)) {
 			$core -> output(400, "Variable of type float must be numeric.");
 		}
 		$status = $thing -> transmitVariable($client, $credentials -> username, $credentials -> password, $data -> variable, $data -> value);
