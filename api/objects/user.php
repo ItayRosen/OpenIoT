@@ -46,7 +46,7 @@ class User {
 		if (!$data) return false;
 		$elements = ["email","rank","lastActivity","registrationDate","things","token"];
 		foreach ($elements as $element) {
-			$this -> $element = $data[$element];
+			$this -> $$element = $data[$element];
 		}
 		return true;
 	}
