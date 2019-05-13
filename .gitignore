@@ -1,2 +1,3 @@
 *.log
 api/config/secrets/*
+api/config/secrets/vendor
