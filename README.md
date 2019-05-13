@@ -42,7 +42,7 @@ As of now, only ESP8266 is supported. I do wish to add support for as many board
 - [ ] Web IDE - for OTA firmware updates
 - [ ] Mobile App
 - [ ] Github OTA - push OTA updates from Github
-- [ ] API - http api for 3rd party applications
+- [X] API - http api for 3rd party applications
 - [X] Data Charts - log components data on platform and plot charts with it.
 - [X] Wifi Manager - add support for Wifi Manager (insert wifi credentials via web server instead of hard-coding)
 - [ ] Coding Hub - create applications that can control multiple Things in one code
@@ -72,6 +72,7 @@ All contributions and contributors are welcome. If you've ran into issues, pleas
     
 ## What's New
 
+* 13/05 - API Support
 * 08/05 - Data charts and logs for GPIO & Variable components
 * 05/05 - WiFi Manager support added to library
 * 02/05 - Self hosting capability added
