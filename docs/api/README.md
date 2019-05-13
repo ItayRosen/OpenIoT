@@ -7,12 +7,14 @@ OpenIoT provides REST API that lets you perform various operations on your Thing
 
 ## Requests
 > Input fields in POST request, token in header.
+
 All endpoints requests should follow the following guideline:
 * POST method
 * TOKEN variable set to your private token in header
 
 ## Responses
 > JSON response: `response` (response / error code) & `data` (response data)
+
 Following the REST API guidelines, API responses are in JSON format and include response code and associated data. Response codes are one of the following:
 * 401: Forbidden access (invalid token)
 * 403: Insufficient permissions (not your device / device shared with you and you don't have sufficient permissions)
@@ -26,10 +28,12 @@ When presented with a response code which is not `200`, read the associated `dat
 
 ## Authentication
 > `TOKEN` field in headers
+
 Each request has to be authenticated. You authenticate your POST requests with `TOKEN` field inside the request's headers. You can get your API token by going to the [Account Page](https://platform.openiot.xyz/Account). You can generate a new token at any given time.
 
 ## Endpoints 
 > The base endpoint is `https://api.openiot.xyz/`
+
 The following request endpoints are currently available: 
 ### `thing/new` - Create a new Thing
 * Input fields:
