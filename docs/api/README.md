@@ -37,13 +37,17 @@ Each request has to be authenticated. You authenticate your POST requests with `
 The following request endpoints are currently available: 
 ### `thing/new` - Create a new Thing
 * Input fields:
+
 	*`name` - Thing's name (required)
 	*`board` - Board type [Options: `esp8266`] (required)
 	
 ### `thing/read` - Read Thing's data
 * Input fields:
+
 	*`id` - Thing's ID. If not set, then a list of all Things is returned.
+	
 * Output fields:
+
 	*`connected` - Whether or not the Thing is connected to the platform. [Options: 1, 0]
 	*`access` - Your permissions for the Thing. [Options: 1 (basic), 2 (admin)]
 	*`name` - Thing's name
@@ -54,40 +58,55 @@ The following request endpoints are currently available:
 	*`version` - Code version (if you set it from the library)
 	*`createdTime` - Creation date
 	*`ports` - Array of attached GPIO
+	
 		*key/index - Port number
 		*`lastActivity` - Last time the port was updated
 		*`mode` - Port mode [Options: 0 (INPUT), 1 (OUTPUT)]
 		*`type` - Port type [Options: analog, digital]
 		*`name` - Port's name as set on the library
 		*`value`
+		
 	*`variables` - Array of attached variables
+	
 		*key/index - Variable name
 		*`lastActivity` - Last time the variable was updated
 		*`type` - Variable data type. [Options: `int`, `string`, `char` (array), `float`]
 		*`value`
+		
 	*`functions` - Array of attached functions
+	
 		*key/index - Function name
 		
 ### `thing/transmit` - Transmit data to Thing
 * Input fields:
+
 	*`id` - Thing's ID (required)
 	*`action` - The element to which you want to transmit (required). Options: 
+	
 		*`reboot` - Reboots the device
 		*`gpio` - Updates a port's value. Required additional fields in this case:
+		
 			*`port` - Port number
 			*`value` - Value to which you update the port
+			
 		*`variable` - Updates a variable's value. Required additional fields in this case:
+		
 			*`variable` - Variable name
 			*`type` - Variable data type. [Options: `int`, `string`, `char` (array), `float`]
 			*`value` - Value to which you update the variable
+			
 		*`function` - Executes a function. Required additional fields in this case:
+		
 			*`value` - Function name
 
 ### `thing/readElement` - Read element's data history
 * Input fields:
+
 	*`name` - Element's name (required)
 	*`thingID` - Thing's unique ID (required)
+	
 * Output fields:
+
 	*`id` - Entry's unix timestamp
 	*`0` - Entry's data
 	
