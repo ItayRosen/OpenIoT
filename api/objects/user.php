@@ -5,32 +5,37 @@ class User {
 	private $reference;
 	
     // object properties
-	private $id;
 	private $password;
+	public $id = 0;
     public $email;
     public $registrationDate;
     public $lastActivity;
     public $rank;
 	public $things;
+	public $token;
 	
     // constructor with $db as database connection
     public function __construct($db){
         $this -> conn = $db;
-		if (isset($_SESSION['ID'])) {
-			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$_SESSION['ID']);
-			$this -> id = $_SESSION['ID'];
-		}
-		else {
-			$this -> reference = $this -> conn -> getReference($this -> table);
-		}
+		$this -> reference = $this -> conn -> getReference($this -> table);
     }
 	
-	//check if the user is logged in
-	public function isLoggedIn() {
-		if (isset($_SESSION['ID']))
-		{
-			//verifiy that there's a user with this ID
+	//authenticate request (user session / api token)
+	public function authenticate() {
+		//platform
+		if (isset($_SESSION['ID'])) {
+			$this -> id = $_SESSION['ID'];
+			$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
 			return ($this -> reference -> getSnapshot() -> exists());
+		}
+		//API
+		else if (isset($_SERVER['HTTP_TOKEN'])) {
+			$data = $this -> reference -> orderByChild("token") -> equalTo($_SERVER['HTTP_TOKEN']) -> getValue();
+			if (!empty($data)) {
+				$this -> id = key($data);
+				$this -> reference = $this -> conn -> getReference($this -> table.'/'.$this -> id);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -39,11 +44,10 @@ class User {
 	public function read() {
 		$data = $this -> reference -> getValue();
 		if (!$data) return false;
-		$this -> email = $data["email"];
-		$this -> rank = $data["rank"];
-		$this -> lastActivity = $data["lastActivity"];
-		$this -> registrationDate = $data["registrationDate"];
-		$this -> things = $data["things"];
+		$elements = ["email","rank","lastActivity","registrationDate","things","token"];
+		foreach ($elements as $element) {
+			$this -> $$element = $data[$element];
+		}
 		return true;
 	}
 	
@@ -194,6 +198,18 @@ class User {
 		}
 		else {
 			$this -> conn -> getReference("banIP/".key($data)) -> remove();
+			return false;
+		}
+	}
+	
+	//generate a new api token
+	public function generateToken() {
+		$token = bin2hex(openssl_random_pseudo_bytes(30));
+		if ($this -> reference -> update(["token" => $token])) {
+			$this -> token = $token;
+			return true;
+		}
+		else {
 			return false;
 		}
 	}

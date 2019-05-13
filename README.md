@@ -23,6 +23,9 @@ Future development of the platform will include an IDE (like Arduino Create). Cu
 ## Self Hosting
 You can host the platform and all communication handling on your own server. You are going to need a linux machine and a firebase account. Check out the [step by step tutorial](docs/self-hosting)
 
+## API
+OpenIoT provides support for a REST API to enable you to programmatically communicate with your Thing (reboot, read/write operations, data history, logs and more). Learn more in the [API docs](docs/api).
+
 ## Supported Boards 
 As of now, only ESP8266 is supported. I do wish to add support for as many boards as possible. Any help with this task is appreciated.
 

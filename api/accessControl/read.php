@@ -24,7 +24,7 @@ $core = new Core;
 $data = json_decode(file_get_contents("php://input"));
 
 // check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(401,"User is not logged in");
 }
@@ -33,7 +33,7 @@ if (!$user -> isLoggedIn())
 $accessControl = new AccessControl($db, $data -> thingID);
 
 // check permissions
-if (!$accessControl -> checkPermissions())
+if (!$accessControl -> checkPermissions($user -> id))
 	$core -> output(204,"Invalid thing id or insufficiant permissions");
 
 $data = $accessControl -> read();
@@ -42,7 +42,7 @@ unset($data[0]);
 $users = $core -> objectToArray($data);
 //decode data
 foreach ($users as $key => $value) {
-	if ($value["id"] == $_SESSION['ID']) {
+	if ($value["id"] == $user -> id) {
 		unset($users[$key]);
 	}
 	else {

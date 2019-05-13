@@ -39,7 +39,7 @@ if ($data -> permission !== 1 && $data -> permission !== 2) {
 }
 
 // check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(401,"User is not logged in");
 }
@@ -48,7 +48,7 @@ if (!$user -> isLoggedIn())
 $accessControl = new AccessControl($db, $data -> thingID);
 
 // check permissions
-if ($accessControl -> checkPermissions() != 2)
+if ($accessControl -> checkPermissions($user -> id) != 2)
 	$core -> output(204,"Invalid thing id or insufficiant permissions");
 
 // check that there's a user with this email address

@@ -24,7 +24,7 @@ $core = new Core;
 $data = json_decode(file_get_contents("php://input"));
 
 // check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(401,"User is not logged in");
 }
@@ -45,7 +45,7 @@ if (!isset($data -> value) && $data -> action != "reboot") {
 }
 
 // validate permissions & read data
-if (!$thing -> read($data -> id)) {
+if (!$thing -> read($user -> id, $data -> id)) {
 	$core -> output(403,"Insufficiant permissions");
 }
 
@@ -56,7 +56,6 @@ if ($thing -> status == 0) {
 
 // create mqtt instance
 $credentials = json_decode(file_get_contents(mqtt_secret));
-$thing -> read($data -> id);
 $client = new Bluerhinos\phpMQTT($credentials -> ip, $credentials -> port, $credentials -> username);
 
 // switch between actions

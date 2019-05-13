@@ -23,7 +23,7 @@ $core = new Core;
 $data = json_decode(file_get_contents("php://input"));
 
 // check if the user is logged in
-if (!$user -> isLoggedIn())
+if (!$user -> authenticate())
 {
 	$core -> output(401,"User is not logged in");
 }
@@ -44,7 +44,7 @@ if (empty($data)) {
 }
 else {
 	// read a thing
-	if (!$thing -> read($data -> id))
+	if (!$thing -> read($user -> id, $data -> id))
 	{
 		$core -> output(403,"Invalid thing id or insufficiant permissions");
 	}
