@@ -35,7 +35,7 @@ if (!isset($data -> id)) {
 
 // check for sufficiant permissions
 if (!$thing -> read($user -> id, $data -> id)) {
-	$core -> output(403,"Insufficient permissions or invalid thing ID");
+	$core -> output(403,"Insufficiant permissions or invalid thing ID");
 }
 
 // update data
