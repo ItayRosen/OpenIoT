@@ -28,10 +28,12 @@ class Account extends Component {
 			callbackStatus: false,
 			redirect: "",
 			email: "",
+			token: ""
 		};
 		
 		this.Submit = this.Submit.bind(this);	
 		this.inputChanged = this.inputChanged.bind(this);	
+		this.GenerateToken = this.GenerateToken.bind(this);	
 	  }
 	  
 	componentWillMount() {
@@ -42,7 +44,7 @@ class Account extends Component {
 		.then(
 		   (result) => {
 				if (result.response === 200) {
-					this.setState({ authenticated: 1, email: result.data.email});					
+					this.setState({ authenticated: 1, email: result.data.email, token: result.data.token});					
 				}
 				else {
 					this.setState({authenticated: -1, redirect: "/Login" });
@@ -54,10 +56,12 @@ class Account extends Component {
 		)
 	}
 	
+	//text change listener
 	inputChanged(e) {
 		this.setState({[e.target.name]: e.target.value});
 	}
 	
+	//change password
 	Submit(e) {
 		e.preventDefault();
 		this.setState({callback: "", clicked: true});
@@ -71,6 +75,28 @@ class Account extends Component {
 				}
 				else {
 					this.setState({callback: result.data, clicked: false, callbackStatus: false});
+				}
+		   },
+		   (error) => {
+				console.log(error);
+		   }
+		)
+	}
+	
+	//generate api token
+	GenerateToken(e) {
+		e.preventDefault();
+		this.setState({clicked: true});
+		fetch(API_URL + "user/generateToken.php", {credentials: 'include', method: "GET"})
+		.then(res => res.json())
+		.then(
+		   (result) => {
+			   console.log(result);
+				if (result.response === 200) {
+					this.setState({token: result.data, clicked: false});
+				}
+				else {
+					this.setState({clicked: false, callbackStatus: false});
 				}
 		   },
 		   (error) => {
@@ -112,6 +138,19 @@ class Account extends Component {
 											</Form.Group>
 											<Button disabled={this.state.clicked} className="submit" block variant="success" onClick={this.Submit}>Done</Button>
 											<p style={{color: (this.state.callbackStatus) ? "green" : "red"}}>{this.state.callback}</p>
+										</Form>
+									</div>
+								</Col>
+								<Col>
+									<div className="box">
+										<h3>API Token</h3>
+										<p>Keep this token private. You can use it to programmatically communicate with your Things. <a href="API">Learn how</a>.</p>
+										<Form onSubmit={this.GenerateToken}>
+											<Form.Group>
+												<Form.Label>Token</Form.Label>
+												<Form.Control name="token" type="text" value={this.state.token} disabled onChange={this.inputChanged} />
+											</Form.Group>
+											<Button disabled={this.state.clicked} className="submit" block variant="info" onClick={this.GenerateToken}>Re-Generate</Button>
 										</Form>
 									</div>
 								</Col>
