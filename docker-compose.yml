@@ -1,0 +1,28 @@
+version: '3'
+services:
+
+  frontproxy:
+    image: linuxserver/letsencrypt
+    container_name: frontproxy
+    cap_add:
+      - NET_ADMIN
+    env_file:
+      - ./env/frontproxy.env
+    ports:
+      - 44:443
+    networks:
+      - proxy
+    volumes:
+      - cert-config:/config
+      - ./docker/proxy/openiot.subdomain.conf:/config/nginx/proxy-confs/openiot.subdomain.conf
+      - certs:/etc/letsencrypt/live
+    restart: unless-stopped
+
+
+volumes:
+  letsencrypt-config:
+  certs:
+
+
+networks:
+  proxy:
