@@ -13,17 +13,7 @@ supported installs will be updated to provide those options.
 
 ## Docker-based network map
 
-```
-              frontproxy
-                  |       
-                  |         
-                  |          
-  firebase --- openiot ---- MQTT 
-                  |          | 
-                  |          | 
-                  |          | 
-              mqtt-broker  --
-```
+![network_map](../assets/openiot_network_map.png)
 
 ## Currently Implemented
 
