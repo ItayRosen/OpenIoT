@@ -13,7 +13,7 @@ supported installs will be updated to provide those options.
 
 ## Docker-based network map
 
-![network_map](../assets/openiot_network_map.png)
+![network_map](../assets/openiot_platform_map.png)
 
 ## Currently Implemented
 
