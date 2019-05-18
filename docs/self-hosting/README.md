@@ -11,7 +11,7 @@ What you are going to need:
 * A linux machine (in the docs we are going to use a $5 DigitalOcean VPS running Ubuntu 18.04.2 with Apache as the webserver)
 * A firebase account (the free version is enough for most usecases)
 
-*note:* A Docker based self-install is in progress. Docs and notes on features available thus far can be found in [docs/self-hosting/docker.md]()
+*note:* A Docker based self-install is in progress. Docs and notes on features available thus far can be found in [docs/self-hosting/docker.md](./docker.md)
 
 ## 1. Setting up a webserver
 > We'll use Apache as our webserver. It will run the back end files as a form of an API.
