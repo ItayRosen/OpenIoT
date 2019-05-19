@@ -35,6 +35,7 @@ As of now, only ESP8266 is supported. I do wish to add support for as many board
 * Bridge pub/sub to Firebase and control MQTT (input + output) from there for better performance.
 * Create OTA temp file to allow better usage of flash size.
 * Try the library with other ESP8266 boards (Wemos D1, Generic ESP8266 etc)
+* Github sign in
 
 ## Features Roadmap
 > Suggestions and "voting" for certain urgancy of different features are welcome.
