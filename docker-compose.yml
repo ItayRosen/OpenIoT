@@ -18,12 +18,22 @@ services:
       - certs:/etc/letsencrypt/live
     restart: unless-stopped
 
+  openiot_web:
+    build:
+      context: ./
+      dockerfile: docker/web/Dockerfile
+    image: openiot:web
+    container_name: web
+    ports:
+      - 9005:80
+    networks:
+      - web
 
 volumes:
   letsencrypt-config:
   certs:
   cert-config:
 
-
 networks:
   proxy:
+  web:
