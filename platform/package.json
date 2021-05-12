@@ -8,7 +8,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "bootstrap": "^4.2.1",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.9.4",
     "copy-to-clipboard": "^3.1.0",
     "rc-slider": "^8.6.6",
     "react": "^16.8.0",
