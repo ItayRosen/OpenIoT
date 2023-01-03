@@ -19,7 +19,7 @@
     "react-dom": "^16.8.0",
     "react-notifications-component": "^1.1.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^5.0.1",
     "react-social-login": "^3.4.4",
     "react-spinners": "^0.5.3",
     "react-switch": "^4.1.0",
